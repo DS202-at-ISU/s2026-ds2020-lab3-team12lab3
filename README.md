@@ -99,7 +99,6 @@ deaths <- av %>%
     values_to = "Death"
   ) %>%
   mutate(Time = parse_number(Time))
-
 head(deaths)
 ```
 
@@ -127,7 +126,6 @@ returns <- av %>%
     values_to = "Return"
   ) %>%
   mutate(Time = parse_number(Time))
-
 head(returns)
 ```
 
@@ -154,7 +152,6 @@ avg_deaths <- deaths %>%
   group_by(URL) %>%
   summarise(total_deaths = n()) %>%
   summarise(avg = mean(total_deaths))
-
 avg_deaths
 ```
 
@@ -165,14 +162,8 @@ avg_deaths
 
 ## Individually
 
-For each team member, copy this part of the report.
-
-Each team member picks one of the statements in the FiveThirtyEight
-[analysis](https://fivethirtyeight.com/features/avengers-death-comics-age-of-ultron/)
-and fact checks it based on the data. Use dplyr functionality whenever
-possible.
-
-### FiveThirtyEight Statement
+@@ -85,39 +49,53 @@ Each team member picks one of the statements in the
+FiveThirtyEight \[analysis\](h
 
 > Quote the statement you are planning to fact-check.
 
@@ -229,3 +220,38 @@ pct_died
 My calculations show that the dataset contains 173 Avengers, and 69 of
 them dies at least once, totaling about 40%. Therefore, the original
 statement is correct.
+
+## Ewan Individual work
+
+### Ewan FiveThirtyEight Statement
+
+“There’s a 2-in-3 chance that a member of the Avengers returned from
+their first stint in the afterlife
+
+## Ewan’s work
+
+``` r
+first_deaths <- deaths %>%
+  filter(Death == "YES") %>%
+  group_by(URL) %>%
+  arrange(Time) %>%
+  slice(1) %>%
+  ungroup()
+first_returns <- first_deaths %>%
+   left_join(returns, by = c("URL", "Time")) %>%
+  summarise(
+  return_rate = mean(Return == "YES", na.rm = TRUE)
+  )
+first_returns
+```
+
+    ## # A tibble: 1 × 1
+    ##   return_rate
+    ##         <dbl>
+    ## 1       0.667
+
+## Ewan’s Answer
+
+after fact checking the statement I found that the return rate of
+avengers after their first death is 66.67% which is a 2 in 3 chance, so
+the statement was correct.
