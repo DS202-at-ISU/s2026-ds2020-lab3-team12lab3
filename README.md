@@ -1,4 +1,3 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/LEAcVKPz)
 
 <!-- README.md is generated from README.Rmd. Please edit the README.Rmd file -->
 
@@ -66,16 +65,103 @@ head(av)
     ## 5                                                      Dies in Fear Itself brought back because that's kind of the whole point. Second death in Time Runs Out has not yet returned
     ## 6                                                                                                                                                                             <NA>
 
+``` r
+library(dplyr)
+```
+
+    ## 
+    ## Attaching package: 'dplyr'
+
+    ## The following objects are masked from 'package:stats':
+    ## 
+    ##     filter, lag
+
+    ## The following objects are masked from 'package:base':
+    ## 
+    ##     intersect, setdiff, setequal, union
+
+``` r
+library(tidyr)
+library(readr)
+```
+
 Get the data into a format where the five columns for Death\[1-5\] are
 replaced by two columns: Time, and Death. Time should be a number
 between 1 and 5 (look into the function `parse_number`); Death is a
 categorical variables with values “yes”, “no” and ““. Call the resulting
 data set `deaths`.
 
+``` r
+deaths <- av %>%
+  pivot_longer(
+    cols = starts_with("Death"),
+    names_to = "Time",
+    values_to = "Death"
+  ) %>%
+  mutate(Time = parse_number(Time))
+
+head(deaths)
+```
+
+    ## # A tibble: 6 × 18
+    ##   URL                 Name.Alias Appearances Current. Gender Probationary.Introl
+    ##   <chr>               <chr>            <int> <chr>    <chr>  <chr>              
+    ## 1 http://marvel.wiki… "Henry Jo…        1269 YES      MALE   ""                 
+    ## 2 http://marvel.wiki… "Henry Jo…        1269 YES      MALE   ""                 
+    ## 3 http://marvel.wiki… "Henry Jo…        1269 YES      MALE   ""                 
+    ## 4 http://marvel.wiki… "Henry Jo…        1269 YES      MALE   ""                 
+    ## 5 http://marvel.wiki… "Henry Jo…        1269 YES      MALE   ""                 
+    ## 6 http://marvel.wiki… "Janet va…        1165 YES      FEMALE ""                 
+    ## # ℹ 12 more variables: Full.Reserve.Avengers.Intro <chr>, Year <int>,
+    ## #   Years.since.joining <int>, Honorary <chr>, Return1 <chr>, Return2 <chr>,
+    ## #   Return3 <chr>, Return4 <chr>, Return5 <chr>, Notes <chr>, Time <dbl>,
+    ## #   Death <chr>
+
 Similarly, deal with the returns of characters.
+
+``` r
+returns <- av %>%
+  pivot_longer(
+    cols = starts_with("Return"),
+    names_to = "Time",
+    values_to = "Return"
+  ) %>%
+  mutate(Time = parse_number(Time))
+
+head(returns)
+```
+
+    ## # A tibble: 6 × 18
+    ##   URL                 Name.Alias Appearances Current. Gender Probationary.Introl
+    ##   <chr>               <chr>            <int> <chr>    <chr>  <chr>              
+    ## 1 http://marvel.wiki… "Henry Jo…        1269 YES      MALE   ""                 
+    ## 2 http://marvel.wiki… "Henry Jo…        1269 YES      MALE   ""                 
+    ## 3 http://marvel.wiki… "Henry Jo…        1269 YES      MALE   ""                 
+    ## 4 http://marvel.wiki… "Henry Jo…        1269 YES      MALE   ""                 
+    ## 5 http://marvel.wiki… "Henry Jo…        1269 YES      MALE   ""                 
+    ## 6 http://marvel.wiki… "Janet va…        1165 YES      FEMALE ""                 
+    ## # ℹ 12 more variables: Full.Reserve.Avengers.Intro <chr>, Year <int>,
+    ## #   Years.since.joining <int>, Honorary <chr>, Death1 <chr>, Death2 <chr>,
+    ## #   Death3 <chr>, Death4 <chr>, Death5 <chr>, Notes <chr>, Time <dbl>,
+    ## #   Return <chr>
 
 Based on these datasets calculate the average number of deaths an
 Avenger suffers.
+
+``` r
+avg_deaths <- deaths %>%
+  filter(Death == "YES") %>%
+  group_by(URL) %>%
+  summarise(total_deaths = n()) %>%
+  summarise(avg = mean(total_deaths))
+
+avg_deaths
+```
+
+    ## # A tibble: 1 × 1
+    ##     avg
+    ##   <dbl>
+    ## 1  1.29
 
 ## Individually
 
@@ -89,6 +175,27 @@ possible.
 ### FiveThirtyEight Statement
 
 > Quote the statement you are planning to fact-check.
+
+### Include the code
+
+Make sure to include the code to derive the (numeric) fact for the
+statement
+
+### Include your answer
+
+Include at least one sentence discussing the result of your
+fact-checking endeavor.
+
+Upload your changes to the repository. Discuss and refine answers as a
+team.
+
+## Individually - Mariana Correa
+
+### FiveThirtyEight Statement
+
+> “Out of 173 listed Avengers, my analysis found that 69 had died at
+> least one time after they joined the team. That’s about 40 percent of
+> all people who have ever signed on to the team.”
 
 ### Include the code
 
