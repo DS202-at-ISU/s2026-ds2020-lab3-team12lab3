@@ -199,13 +199,33 @@ team.
 
 ### Include the code
 
-Make sure to include the code to derive the (numeric) fact for the
-statement
+``` r
+num_avengers <- nrow(av)
+num_avengers
+```
+
+    ## [1] 173
+
+``` r
+died_at_least_once <- deaths %>%
+  filter(Death == "YES") %>%
+  distinct(URL) %>%
+  nrow()
+
+died_at_least_once
+```
+
+    ## [1] 69
+
+``` r
+pct_died <- died_at_least_once / num_avengers * 100
+pct_died
+```
+
+    ## [1] 39.88439
 
 ### Include your answer
 
-Include at least one sentence discussing the result of your
-fact-checking endeavor.
-
-Upload your changes to the repository. Discuss and refine answers as a
-team.
+My calculations show that the dataset contains 173 Avengers, and 69 of
+them dies at least once, totaling about 40%. Therefore, the original
+statement is correct.
