@@ -99,6 +99,7 @@ deaths <- av %>%
     values_to = "Death"
   ) %>%
   mutate(Time = parse_number(Time))
+
 head(deaths)
 ```
 
@@ -126,6 +127,7 @@ returns <- av %>%
     values_to = "Return"
   ) %>%
   mutate(Time = parse_number(Time))
+
 head(returns)
 ```
 
@@ -152,6 +154,7 @@ avg_deaths <- deaths %>%
   group_by(URL) %>%
   summarise(total_deaths = n()) %>%
   summarise(avg = mean(total_deaths))
+
 avg_deaths
 ```
 
@@ -162,8 +165,14 @@ avg_deaths
 
 ## Individually
 
-@@ -85,39 +49,53 @@ Each team member picks one of the statements in the
-FiveThirtyEight \[analysis\](h
+For each team member, copy this part of the report.
+
+Each team member picks one of the statements in the FiveThirtyEight
+[analysis](https://fivethirtyeight.com/features/avengers-death-comics-age-of-ultron/)
+and fact checks it based on the data. Use dplyr functionality whenever
+possible.
+
+### FiveThirtyEight Statement
 
 > Quote the statement you are planning to fact-check.
 
@@ -176,9 +185,6 @@ statement
 
 Include at least one sentence discussing the result of your
 fact-checking endeavor.
-
-Upload your changes to the repository. Discuss and refine answers as a
-team.
 
 ## Individually - Mariana Correa
 
@@ -237,6 +243,7 @@ first_deaths <- deaths %>%
   arrange(Time) %>%
   slice(1) %>%
   ungroup()
+
 first_returns <- first_deaths %>%
    left_join(returns, by = c("URL", "Time")) %>%
   summarise(
