@@ -262,3 +262,64 @@ first_returns
 after fact checking the statement I found that the return rate of
 avengers after their first death is 66.67% which is a 2 in 3 chance, so
 the statement was correct.
+
+### Mason’s FiveThirtyEight Statement
+
+> “Of the nine Avengers we see on screen — Iron Man, Hulk, Captain
+> America, Thor, Hawkeye, Black Widow, Scarlet Witch, Quicksilver and
+> The Vision — every single one of them has died at least once in the
+> course of their time Avenging in the comics. In fact, Hawkeye died
+> twice!”
+
+### Mason’s code
+
+``` r
+deaths_filtered <- deaths %>% filter (Death == 'YES', Name.Alias %in% c('Anthony Edward "Tony" Stark','Robert Bruce Banner' ,'Steven Rogers', 'Thor Odinson', 'Clinton Francis Barton', 'Natalia Alianovna Romanova', 'Wanda Maximoff', 'Pietro Maximoff', 'Victor Shade (alias)'))
+deaths_filtered
+```
+
+    ## # A tibble: 11 × 18
+    ##    URL                Name.Alias Appearances Current. Gender Probationary.Introl
+    ##    <chr>              <chr>            <int> <chr>    <chr>  <chr>              
+    ##  1 http://marvel.wik… "Anthony …        3068 YES      MALE   ""                 
+    ##  2 http://marvel.wik… "Robert B…        2089 YES      MALE   ""                 
+    ##  3 http://marvel.wik… "Thor Odi…        2402 YES      MALE   ""                 
+    ##  4 http://marvel.wik… "Thor Odi…        2402 YES      MALE   ""                 
+    ##  5 http://marvel.wik… "Steven R…        3458 YES      MALE   ""                 
+    ##  6 http://marvel.wik… "Clinton …        1456 YES      MALE   ""                 
+    ##  7 http://marvel.wik… "Clinton …        1456 YES      MALE   ""                 
+    ##  8 http://marvel.wik… "Pietro M…         769 YES      MALE   ""                 
+    ##  9 http://marvel.wik… "Wanda Ma…        1214 YES      FEMALE ""                 
+    ## 10 http://marvel.wik… "Victor S…        1036 YES      MALE   ""                 
+    ## 11 http://marvel.wik… "Natalia …        1112 YES      FEMALE ""                 
+    ## # ℹ 12 more variables: Full.Reserve.Avengers.Intro <chr>, Year <int>,
+    ## #   Years.since.joining <int>, Honorary <chr>, Return1 <chr>, Return2 <chr>,
+    ## #   Return3 <chr>, Return4 <chr>, Return5 <chr>, Notes <chr>, Time <dbl>,
+    ## #   Death <chr>
+
+``` r
+counts_df <- deaths_filtered |> count(Name.Alias)
+counts_df
+```
+
+    ## # A tibble: 9 × 2
+    ##   Name.Alias                          n
+    ##   <chr>                           <int>
+    ## 1 "Anthony Edward \"Tony\" Stark"     1
+    ## 2 "Clinton Francis Barton"            2
+    ## 3 "Natalia Alianovna Romanova"        1
+    ## 4 "Pietro Maximoff"                   1
+    ## 5 "Robert Bruce Banner"               1
+    ## 6 "Steven Rogers"                     1
+    ## 7 "Thor Odinson"                      2
+    ## 8 "Victor Shade (alias)"              1
+    ## 9 "Wanda Maximoff"                    1
+
+### Mason’s answer
+
+The quote stated that all 9 of the avengers have died at least once,
+with hawkeye having suffered two deaths. I filtered the deaths dataframe
+to only those 9 avengers and the rows in which they have a death marked,
+and summed them up in a dataframe which counts the deaths. The statement
+is TRUE! However, it fails to account for the fact that Thor has also
+died twice.
