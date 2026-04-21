@@ -323,3 +323,37 @@ to only those 9 avengers and the rows in which they have a death marked,
 and summed them up in a dataframe which counts the deaths. The statement
 is TRUE! However, it fails to account for the fact that Thor has also
 died twice.
+
+## Ryan’s Individual work
+
+### Ryan’s FiveThirtyEight Statement
+
+> “Given the Avengers’ 53 years in operation and overall mortality rate,
+> fans of the comics can expect one current or former member to die
+> every seven months or so.”
+
+### Ryan’s code
+
+``` r
+death_frequency <- deaths %>%
+  filter(Death == "YES") %>%
+  summarise(
+    total_deaths = n(),
+    years_operating = 53,
+    months_per_death = (years_operating * 12) / total_deaths
+  )
+
+death_frequency
+```
+
+    ## # A tibble: 1 × 3
+    ##   total_deaths years_operating months_per_death
+    ##          <int>           <dbl>            <dbl>
+    ## 1           89              53             7.15
+
+### Ryan’s Answer
+
+The data shows 89 total deaths across the 53 years the Avengers have
+been in operation. That works out to roughly one death every 7.15
+months, which rounds to “every seven months or so.” The FiveThirtyEight
+claim is correct.
